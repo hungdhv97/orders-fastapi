@@ -1,3 +1,4 @@
 fastapi
 mongoengine
 pydantic_settings
+uvicorn
