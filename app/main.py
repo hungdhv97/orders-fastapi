@@ -1,11 +1,18 @@
 from fastapi import FastAPI
 from mongoengine import connect
 
+from app.api.v1.order_router import router as order_router
 from app.api.v1.user_router import router as user_router
 from app.core.config import settings
 
 connect(host=settings.MONGODB_URI)
 
-app = FastAPI()
+tags_metadata = [{"name": "users"}, {"name": "orders"}]
 
-app.include_router(user_router)
+app = FastAPI(
+    title="Orders Fast API",
+    openapi_tags=tags_metadata
+)
+
+app.include_router(user_router, tags=["users"])
+app.include_router(order_router, tags=["orders"])

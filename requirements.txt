@@ -2,3 +2,5 @@ fastapi
 mongoengine
 pydantic_settings
 uvicorn
+pydantic
+starlette
