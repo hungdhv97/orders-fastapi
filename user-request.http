@@ -1,0 +1,26 @@
+### Create User
+POST http://localhost:8000/user/
+Content-Type: application/json
+
+{
+  "username": "{{username}}",
+  "full_name": "{{full_name}}"
+}
+
+### Get User
+GET http://localhost:8000/user/{{user_id}}
+
+### Update User
+PUT http://localhost:8000/user/{{user_id}}
+Content-Type: application/json
+
+{
+  "username": "user updated",
+  "full_name": "full name updateted"
+}
+
+### Delete User
+DELETE http://localhost:8000/user/{{user_id}}
+
+### Get Users
+GET http://localhost:8000/users/
