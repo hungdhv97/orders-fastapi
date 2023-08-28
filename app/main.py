@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from mongoengine import connect
 
-from app.api.v1.order_router import router as order_router
-from app.api.v1.user_router import router as user_router
+from app.api.v1.routers.order_router import router as order_router
+from app.api.v1.routers.user_router import router as user_router
 from app.core.config import settings
 
 connect(host=settings.MONGODB_URI)
