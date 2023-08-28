@@ -1,7 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, HTTPException
-from mongoengine import NotUniqueError
+from mongoengine import NotUniqueError, ValidationError, DoesNotExist
 from starlette import status
 
 from app.documents.user_document import User
@@ -22,31 +22,43 @@ async def create_user(user: CreateUserRequest) -> UserResponse:
 
 @router.get("/user/{user_id}", response_model=UserResponse)
 async def get_user(user_id: str) -> UserResponse:
-    user = User.objects(id=user_id).first()
-    if user:
-        return UserResponse(id=str(user.id), **user.to_mongo())
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    try:
+        user = User.objects.get(id=user_id)
+        if user:
+            return UserResponse(id=str(user.id), **user.to_mongo())
+    except ValidationError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except DoesNotExist:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist")
 
 
 @router.put("/user/{user_id}", response_model=UserResponse)
 async def update_user(user_id: str, user_update: UpdateUserRequest) -> UserResponse:
-    user = User.objects(id=user_id).first()
-    if user:
-        for attr, value in user_update.model_dump().items():
-            if value is not None:
-                setattr(user, attr, value)
-        user.save()
-        return UserResponse(id=str(user.id), **user.to_mongo())
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    try:
+        user = User.objects.get(id=user_id)
+        if user:
+            for attr, value in user_update.model_dump().items():
+                if value is not None:
+                    setattr(user, attr, value)
+            user.save()
+            return UserResponse(id=str(user.id), **user.to_mongo())
+    except ValidationError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except DoesNotExist:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist")
 
 
 @router.delete("/user/{user_id}", response_model=dict)
 async def delete_user(user_id: str):
-    user = User.objects(id=user_id).first()
-    if user:
-        user.delete()
-        return {"message": "User deleted"}
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    try:
+        user = User.objects.get(id=user_id)
+        if user:
+            user.delete()
+            return {"message": "User deleted"}
+    except ValidationError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    except DoesNotExist:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist")
 
 
 @router.get("/users/", response_model=List[UserResponse])

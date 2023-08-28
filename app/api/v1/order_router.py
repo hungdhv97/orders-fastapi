@@ -28,17 +28,17 @@ async def create_order(order: CreateOrderRequest) -> OrderResponse:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Order already exists")
 
 
-@router.get("/order/{orderid}", response_model=OrderResponse)
-async def get_order(orderid: str) -> OrderResponse:
-    order = Order.objects(id=orderid).first()
+@router.get("/order/{order_id}", response_model=OrderResponse)
+async def get_order(order_id: str) -> OrderResponse:
+    order = Order.objects(id=order_id).first()
     if order:
         return OrderResponse(id=str(order.id), **order.to_mongo())
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
 
 
-@router.put("/order/{orderid}", response_model=OrderResponse)
-async def update_order(orderid: str, order_update: UpdateOrderRequest) -> OrderResponse:
-    order = Order.objects(id=orderid).first()
+@router.put("/order/{order_id}", response_model=OrderResponse)
+async def update_order(order_id: str, order_update: UpdateOrderRequest) -> OrderResponse:
+    order = Order.objects(id=order_id).first()
     if order:
         for attr, value in order_update.model_dump().items():
             if value is not None:
@@ -48,9 +48,9 @@ async def update_order(orderid: str, order_update: UpdateOrderRequest) -> OrderR
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
 
 
-@router.delete("/order/{orderid}", response_model=dict)
-async def delete_order(orderid: str):
-    order = Order.objects(id=orderid).first()
+@router.delete("/order/{order_id}", response_model=dict)
+async def delete_order(order_id: str):
+    order = Order.objects(id=order_id).first()
     if order:
         order.delete()
         return {"message": "Order deleted"}
