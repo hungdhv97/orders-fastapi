@@ -1,0 +1,4 @@
+GET http://localhost:8000/api/v1/menus/grab/merchants/{{merchant_id}}
+Accept: application/json
+
+###
