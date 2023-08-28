@@ -26,16 +26,13 @@ class UserService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     def update_user(self, user_id: str, username: Optional[str], full_name: Optional[str]) -> User:
-        try:
-            user = self.get_user(user_id)
-            if username:
-                user.username = username
-            if full_name:
-                user.full_name = full_name
-            user.save()
-            return user
-        except ValidationError as e:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        user = self.get_user(user_id)
+        if username:
+            user.username = username
+        if full_name:
+            user.full_name = full_name
+        user.save()
+        return user
 
     def delete_user(self, user_id: str):
         try:

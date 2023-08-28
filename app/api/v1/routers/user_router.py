@@ -1,5 +1,6 @@
 from typing import List
 
+import httpx
 from fastapi import APIRouter
 
 from app.models.user_model import UserResponse, CreateUserRequest, UpdateUserRequest
@@ -7,6 +8,16 @@ from app.services.user_service import UserService
 
 router = APIRouter()
 user_service = UserService()
+
+
+@router.get("/fetch_merchant_data/")
+async def fetch_merchant_data():
+    url = "https://portal.grab.com/foodweb/v2/merchants/5-C3C2T8MUVN4HLT"
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url)
+        response.raise_for_status()  # Raise an exception for 4xx and 5xx status codes
+
+    return response.json()
 
 
 @router.post("/user/", response_model=UserResponse)
