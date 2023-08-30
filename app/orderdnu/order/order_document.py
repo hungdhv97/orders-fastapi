@@ -1,9 +1,9 @@
 from mongoengine import Document, StringField, ReferenceField, IntField
 
-from app.documents.user_document import User
+from app.orderdnu.user.user_document import UserDocument
 
 
 class Order(Document):
-    user = ReferenceField(User, required=True)
+    user = ReferenceField(UserDocument, required=True)
     food_name = StringField(required=True)
     price = IntField(default=0, required=True)

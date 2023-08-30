@@ -4,28 +4,29 @@ from fastapi import HTTPException
 from mongoengine import NotUniqueError, ValidationError, DoesNotExist
 from starlette import status
 
-from app.documents.user_document import User
+from app.orderdnu.user.user_document import UserDocument
+from app.orderdnu.user.user_model import UserModel
 
 
 class UserService:
-    def create_user(self, username: str, full_name: Optional[str]) -> User:
+    def create_user(self, username: str, full_name: Optional[str]) -> UserModel:
         try:
-            new_user = User(username=username, full_name=full_name)
+            new_user = UserDocument(username=username, full_name=full_name)
             new_user.save()
             return new_user
         except NotUniqueError:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already exists")
 
-    def get_user(self, user_id: str) -> User:
+    def get_user(self, user_id: str) -> UserModel:
         try:
-            user = User.objects.get(id=user_id)
+            user = UserModel.objects.get(id=user_id)
             return user
         except ValidationError as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
         except DoesNotExist:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    def update_user(self, user_id: str, username: Optional[str], full_name: Optional[str]) -> User:
+    def update_user(self, user_id: str, username: Optional[str], full_name: Optional[str]) -> UserModel:
         try:
             user = self.get_user(user_id)
             if username:
@@ -44,6 +45,6 @@ class UserService:
         except DoesNotExist:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    def get_users(self, skip: int = 0, limit: int = 10) -> List[User]:
-        users = User.objects.skip(skip).limit(limit)
+    def get_users(self, skip: int = 0, limit: int = 10) -> List[UserModel]:
+        users = UserModel.objects.skip(skip).limit(limit)
         return users

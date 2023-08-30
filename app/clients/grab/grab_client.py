@@ -9,7 +9,7 @@ class GrabClient:
         self.client = httpx.AsyncClient()
         self.base_url = "https://portal.grab.com/foodweb/v2/merchants/"
 
-    async def get(self, merchant_id: str) -> Any:
+    async def get_menus(self, merchant_id: str) -> Any:
         url = f"{self.base_url}{merchant_id}"
         try:
             response = await self.client.get(url)

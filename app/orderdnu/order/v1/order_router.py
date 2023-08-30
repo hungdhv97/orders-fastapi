@@ -4,18 +4,18 @@ from fastapi import APIRouter, HTTPException
 from mongoengine import NotUniqueError, DoesNotExist, ValidationError
 from starlette import status
 
-from app.documents.order_document import Order
-from app.documents.user_document import User
-from app.models.order_model import OrderResponse, CreateOrderRequest, UpdateOrderRequest
+from app.orderdnu.order.order_document import Order
+from app.orderdnu.order.order_model import OrderResponse, CreateOrderRequest, UpdateOrderRequest
+from app.orderdnu.user.user_document import UserDocument
 
 router = APIRouter()
 
 
-@router.post("/order/", response_model=OrderResponse)
+@router.post("/", response_model=OrderResponse)
 async def create_order(order: CreateOrderRequest) -> OrderResponse:
     try:
         try:
-            user = User.objects.get(id=order.user_id)
+            user = UserDocument.objects.get(id=order.user_id)
         except ValidationError as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
         except DoesNotExist:
@@ -28,7 +28,7 @@ async def create_order(order: CreateOrderRequest) -> OrderResponse:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Order already exists")
 
 
-@router.get("/order/{order_id}", response_model=OrderResponse)
+@router.get("/{order_id}", response_model=OrderResponse)
 async def get_order(order_id: str) -> OrderResponse:
     order = Order.objects(id=order_id).first()
     if order:
@@ -36,7 +36,7 @@ async def get_order(order_id: str) -> OrderResponse:
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
 
 
-@router.put("/order/{order_id}", response_model=OrderResponse)
+@router.put("/{order_id}", response_model=OrderResponse)
 async def update_order(order_id: str, order_update: UpdateOrderRequest) -> OrderResponse:
     order = Order.objects(id=order_id).first()
     if order:
@@ -48,7 +48,7 @@ async def update_order(order_id: str, order_update: UpdateOrderRequest) -> Order
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
 
 
-@router.delete("/order/{order_id}", response_model=dict)
+@router.delete("/{order_id}", response_model=dict)
 async def delete_order(order_id: str):
     order = Order.objects(id=order_id).first()
     if order:
@@ -57,7 +57,7 @@ async def delete_order(order_id: str):
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Order not found")
 
 
-@router.get("/orders/", response_model=List[OrderResponse])
+@router.get("/", response_model=List[OrderResponse])
 async def get_orders(skip: int = 0, limit: int = 10) -> List[OrderResponse]:
     orders = Order.objects.skip(skip).limit(limit)
     return [OrderResponse(id=str(order.id), user_id=str(order.user.id), **order.to_mongo()) for order in orders]

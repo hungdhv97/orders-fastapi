@@ -1,6 +1,6 @@
 from mongoengine import Document, StringField
 
 
-class User(Document):
+class UserDocument(Document):
     username = StringField(required=True, unique=True)
     full_name = StringField()

@@ -17,3 +17,9 @@ class UserResponse(BaseModel):
 class UpdateUserRequest(BaseModel):
     username: Optional[str] = None
     full_name: Optional[str] = None
+
+
+class UserModel(BaseModel):
+    id: str
+    username: str
+    full_name: Optional[str] = None
