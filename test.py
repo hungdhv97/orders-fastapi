@@ -1,53 +1,12 @@
 from typing import Any, Callable, Annotated
+from uuid import uuid4
 
 from bson import ObjectId
 from mongoengine import Document, connect, StringField
-from pydantic import BaseModel, Field, GetJsonSchemaHandler
+from pydantic import BaseModel, Field, GetJsonSchemaHandler, root_validator, model_validator
 from pydantic.json_schema import JsonSchemaValue
 from pydantic_core import core_schema
 
-
-# Based on https://docs.pydantic.dev/latest/usage/types/custom/#handling-third-party-types
-class _ObjectIdPydanticAnnotation:
-    @classmethod
-    def __get_pydantic_core_schema__(
-            cls,
-            _source_type: Any,
-            _handler: Callable[[Any], core_schema.CoreSchema],
-    ) -> core_schema.CoreSchema:
-        def validate_from_str(id_: str) -> ObjectId:
-            return ObjectId(id_)
-
-        from_str_schema = core_schema.chain_schema(
-            [
-                core_schema.str_schema(),
-                core_schema.no_info_plain_validator_function(validate_from_str),
-            ]
-        )
-
-        return core_schema.json_or_python_schema(
-            json_schema=from_str_schema,
-            python_schema=core_schema.union_schema(
-                [
-                    # check if it's an instance first before doing any further work
-                    core_schema.is_instance_schema(ObjectId),
-                    from_str_schema,
-                ]
-            ),
-            serialization=core_schema.to_string_ser_schema(),
-        )
-
-    @classmethod
-    def __get_pydantic_json_schema__(
-            cls, _core_schema: core_schema.CoreSchema, handler: GetJsonSchemaHandler
-    ) -> JsonSchemaValue:
-        # Use the same schema that would be used for `str`
-        return handler(core_schema.str_schema())
-
-
-PydanticObjectId = Annotated[
-    ObjectId, _ObjectIdPydanticAnnotation
-]
 connect(host="mongodb+srv://pyopywhiz:pyopywhiz@pyopywhiz.ws73uvc.mongodb.net/orders")
 
 
@@ -59,15 +18,24 @@ class SomeDocument(Document):
 
 # </editor-fold>
 
+class BaseModel(BaseModel):
+    @model_validator(mode="before")
+    @classmethod
+    def _set_person_id(cls, data):
+        document_id = data.get("_id")
+        if document_id:
+            data["id"] = str(document_id)
+        return data
+
 
 class SomeModel(BaseModel):
-    id: PydanticObjectId = Field(alias='_id')
+    id: str
     name: str
 
-    # model_config = ConfigDict(from_attributes=True)
+
 
 
 document = SomeDocument(name="hung").save()
-model = SomeModel.model_validate({"_id": "64eafad5ddf8b572402d0ad7", "name": "456"})
+model = SomeModel(**document.to_mongo())
 
-print(type(model.id))
+print(model)
