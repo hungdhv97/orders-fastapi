@@ -1,11 +1,5 @@
-from typing import Any, Callable, Annotated
-from uuid import uuid4
-
-from bson import ObjectId
 from mongoengine import Document, connect, StringField
-from pydantic import BaseModel, Field, GetJsonSchemaHandler, root_validator, model_validator
-from pydantic.json_schema import JsonSchemaValue
-from pydantic_core import core_schema
+from pydantic import BaseModel, Field, model_validator
 
 connect(host="mongodb+srv://pyopywhiz:pyopywhiz@pyopywhiz.ws73uvc.mongodb.net/orders")
 
@@ -29,13 +23,11 @@ class BaseModel(BaseModel):
 
 
 class SomeModel(BaseModel):
-    id: str
+    id: str = Field(..., alias="merchant.ID")
     name: str
 
 
-
-
 document = SomeDocument(name="hung").save()
-model = SomeModel(**document.to_mongo())
+model = SomeModel(**{"merchant.ID": "123", "name": "hung"})
 
 print(model)
