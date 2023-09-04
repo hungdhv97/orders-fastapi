@@ -3,7 +3,7 @@ from mongoengine import connect
 from starlette.middleware.cors import CORSMiddleware
 
 from app.common.settings.config import settings
-from app.orderdnu.menu.v1 import router as menu_v1_router
+from app.orderdnu.merchant.v1 import router as menu_v1_router
 from app.orderdnu.order.v1 import router as order_v1_router
 from app.orderdnu.user.v1 import router as user_v1_router
 
