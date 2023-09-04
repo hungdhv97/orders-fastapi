@@ -1,20 +1,14 @@
-from typing import Optional
-
 from pydantic import BaseModel
+
+from app.orderdnu.user.user_model import UserNameField, PasswordField, FullNameField
 
 
 class LoginRequest(BaseModel):
-    username: str
-    password: str
+    username: UserNameField
+    password: PasswordField
 
 
 class RegisterRequest(BaseModel):
-    username: str
-    password: str
-    full_name: str
-
-
-class UserResponse(BaseModel):
-    id: str
-    username: str
-    full_name: Optional[str] = None
+    username: UserNameField
+    password: PasswordField
+    full_name: FullNameField

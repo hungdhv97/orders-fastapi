@@ -1,28 +1,37 @@
-from typing import Optional
+from typing import Optional, Annotated
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+IdField = Annotated[str, Field(examples=["64f6318231e3ac649c61d2e8"])]
+UserNameField = Annotated[str, Field(examples=["nghia.nguyen4"])]
+PasswordField = Annotated[str, Field(examples=["1234"])]
+FullNameField = Annotated[str, Field(examples=["Nguyễn Bá Nghĩa"])]
+
+OptionalUserNameField = Annotated[Optional[str], Field(default=None, examples=["nghia.nguyen4"])]
+OptionalPasswordField = Annotated[Optional[str], Field(default=None, examples=["1234"])]
+OptionalFullNameField = Annotated[Optional[str], Field(default=None, examples=["Nguyễn Bá Nghĩa"])]
 
 
 class CreateUserRequest(BaseModel):
-    username: str
-    password: str
-    full_name: str
+    username: UserNameField
+    password: PasswordField
+    full_name: FullNameField
 
 
 class UserResponse(BaseModel):
-    id: str
-    username: str
-    full_name: Optional[str] = None
+    id: IdField
+    username: UserNameField
+    full_name: FullNameField
 
 
 class UpdateUserRequest(BaseModel):
-    username: Optional[str] = None
-    password: Optional[str] = None
-    full_name: Optional[str] = None
+    username: OptionalUserNameField
+    password: OptionalPasswordField
+    full_name: OptionalFullNameField
 
 
 class User(BaseModel):
-    id: str
-    username: str
-    password: str
-    full_name: Optional[str] = None
+    id: IdField
+    username: UserNameField
+    password: PasswordField
+    full_name: OptionalFullNameField
