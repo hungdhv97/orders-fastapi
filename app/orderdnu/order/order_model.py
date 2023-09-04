@@ -19,3 +19,10 @@ class CreateOrderRequest(BaseModel):
 class UpdateOrderRequest(BaseModel):
     food_name: Optional[str]
     price: Optional[int]
+
+
+class Order(BaseModel):
+    id: str
+    user_id: str
+    food_name: str
+    price: int

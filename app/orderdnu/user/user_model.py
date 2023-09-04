@@ -19,7 +19,7 @@ class UpdateUserRequest(BaseModel):
     full_name: Optional[str] = None
 
 
-class UserModel(BaseModel):
+class User(BaseModel):
     id: str
     username: str
     full_name: Optional[str] = None

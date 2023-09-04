@@ -1,0 +1,27 @@
+### Create User
+POST http://localhost:8000/api/v1/orders/
+Content-Type: application/json
+
+{
+  "user_id": "{{user_id}}",
+  "food_name": "{{food_name}}",
+  "price": {{price}}
+}
+
+### Get User
+GET http://localhost:8000/api/v1/users/{{user_id}}
+
+### Update User
+PUT http://localhost:8000/api/v1/users/{{user_id}}
+Content-Type: application/json
+
+{
+  "username": "user updated",
+  "full_name": "full name updateted"
+}
+
+### Delete User
+DELETE http://localhost:8000/api/v1/users/{{user_id}}
+
+### Get Users
+GET http://localhost:8000/api/v1/users/
