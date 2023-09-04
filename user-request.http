@@ -1,5 +1,5 @@
 ### Create User
-POST http://localhost:8000/user/
+POST http://localhost:8000/api/v1/users/
 Content-Type: application/json
 
 {
@@ -8,10 +8,10 @@ Content-Type: application/json
 }
 
 ### Get User
-GET http://localhost:8000/user/{{user_id}}
+GET http://localhost:8000/api/v1/users/{{user_id}}
 
 ### Update User
-PUT http://localhost:8000/user/{{user_id}}
+PUT http://localhost:8000/api/v1/users/{{user_id}}
 Content-Type: application/json
 
 {
@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### Delete User
-DELETE http://localhost:8000/user/{{user_id}}
+DELETE http://localhost:8000/api/v1/users/{{user_id}}
 
 ### Get Users
-GET http://localhost:8000/users/
+GET http://localhost:8000/api/v1/users/
