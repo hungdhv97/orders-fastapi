@@ -9,9 +9,9 @@ from app.orderdnu.user.user_model import User
 
 
 class UserService:
-    async def create_user(self, username: str, full_name: Optional[str]) -> User:
+    async def create_user(self, username: str, password: str, full_name: str) -> User:
         try:
-            new_user = UserDocument(username=username, full_name=full_name)
+            new_user = UserDocument(username=username, password=password, full_name=full_name)
             new_user.save()
             return User.model_validate({"id": str(new_user.id), **new_user.to_mongo()})
         except NotUniqueError:
@@ -35,12 +35,14 @@ class UserService:
         except DoesNotExist:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-
-    async def update_user(self, user_id: str, username: Optional[str], full_name: Optional[str]) -> User:
+    async def update_user(self, user_id: str, username: Optional[str], password: Optional[str],
+                          full_name: Optional[str]) -> User:
         try:
             user = await self.get_user_by_id(user_id)
             if username:
                 user.username = username
+            if password:
+                user.password = password
             if full_name:
                 user.full_name = full_name
             UserDocument(**dict(user)).save()

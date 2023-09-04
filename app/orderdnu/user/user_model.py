@@ -5,7 +5,8 @@ from pydantic import BaseModel
 
 class CreateUserRequest(BaseModel):
     username: str
-    full_name: Optional[str] = None
+    password: str
+    full_name: str
 
 
 class UserResponse(BaseModel):
@@ -16,10 +17,12 @@ class UserResponse(BaseModel):
 
 class UpdateUserRequest(BaseModel):
     username: Optional[str] = None
+    password: Optional[str] = None
     full_name: Optional[str] = None
 
 
 class User(BaseModel):
     id: str
     username: str
+    password: str
     full_name: Optional[str] = None

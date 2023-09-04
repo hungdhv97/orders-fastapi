@@ -11,7 +11,7 @@ user_service = UserService()
 
 @router.post("/", response_model=UserResponse)
 async def create_user(user: CreateUserRequest) -> UserResponse:
-    new_user = await user_service.create_user(user.username, user.full_name)
+    new_user = await user_service.create_user(user.username, user.password, user.full_name)
     return UserResponse.model_validate(new_user.model_dump())
 
 
@@ -20,10 +20,12 @@ async def get_user(user_id: Annotated[str, Path(example="64f56d85faf1cf89b48f3c5
     user = await user_service.get_user_by_id(user_id)
     return UserResponse.model_validate(user.model_dump())
 
+
 @router.get("/{user_name}", response_model=UserResponse)
 async def get_user(user_name: Annotated[str, Path(example="nghia.nguyen4")]) -> UserResponse:
     user = await user_service.get_user_by_user_name(user_name)
     return UserResponse.model_validate(user.model_dump())
+
 
 @router.put("/{user_id}", response_model=UserResponse)
 async def update_user(user_id: Annotated[str, Path(example="64f56d85faf1cf89b48f3c5f")],
