@@ -13,7 +13,7 @@ class GrabFoodItem(BaseModel):
 
 
 class GrabCategoryItem(BaseModel):
-    id: str = Field(..., alias="ID")
+    id: str = Field(default="", alias="ID")
     name: str
     available: bool
     items: List[GrabFoodItem]
