@@ -16,20 +16,26 @@ async def login(
             LoginRequest,
             Body(
                 openapi_examples={
-                    "nghia": {
-                        "username": "nghia.nguyen4",
-                        "password": "1234",
-                        "full_name": "Nguyễn Bá Nghĩa",
+                    "success": {
+                        "summary": "Login Nghia account",
+                        "value": {
+                            "username": "nghia.nguyen4",
+                            "password": "1234",
+                        }
                     },
-                    "hung": {
-                        "username": "hung.thai",
-                        "password": "1234",
-                        "full_name": "Thái Doãn Hùng",
+                    "wrong_password": {
+                        "summary": "Login Nghia wrong password",
+                        "value": {
+                            "username": "nghia.nguyen4",
+                            "password": "wrong_password",
+                        }
                     },
-                    "nam": {
-                        "username": "nam.nguyen12",
-                        "password": "1234",
-                        "full_name": "Nguyễn Văn Nam",
+                    "non_exist": {
+                        "summary": "Login non-exist account",
+                        "value": {
+                            "username": "non-exist",
+                            "password": "1234",
+                        }
                     },
                 },
             ),
@@ -44,24 +50,24 @@ async def register(
             RegisterRequest,
             Body(
                 openapi_examples={
-                    "nghia": {
-                        "summary": "Regiter nghia account",
+                    "account1": {
+                        "summary": "Register Nghia account",
                         "value": {
                             "username": "nghia.nguyen4",
                             "password": "1234",
                             "full_name": "Nguyễn Bá Nghĩa",
                         }
                     },
-                    "hung": {
-                        "summary": "Regiter hung account",
+                    "account2": {
+                        "summary": "Register Hung account",
                         "value": {
                             "username": "hung.thai",
                             "password": "1234",
                             "full_name": "Thái Doãn Hùng",
                         }
                     },
-                    "nam": {
-                        "summary": "Regiter nam account",
+                    "account3": {
+                        "summary": "Register Nam account",
                         "value": {
                             "username": "nam.nguyen12",
                             "password": "1234",

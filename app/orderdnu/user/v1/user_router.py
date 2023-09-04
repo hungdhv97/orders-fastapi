@@ -21,9 +21,9 @@ async def get_user(user_id: Annotated[str, Path(example="64f56d85faf1cf89b48f3c5
     return UserResponse.model_validate(user.model_dump())
 
 
-@router.get("/{user_name}", response_model=UserResponse)
-async def get_user(user_name: Annotated[str, Path(example="nghia.nguyen4")]) -> UserResponse:
-    user = await user_service.get_user_by_user_name(user_name)
+@router.get("/{username}", response_model=UserResponse)
+async def get_user(username: Annotated[str, Path(example="nghia.nguyen4")]) -> UserResponse:
+    user = await user_service.get_user_by_username(username)
     return UserResponse.model_validate(user.model_dump())
 
 

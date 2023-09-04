@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class LoginRequest(BaseModel):
@@ -12,6 +12,7 @@ class RegisterRequest(BaseModel):
     username: str
     password: str
     full_name: str
+
 
 class UserResponse(BaseModel):
     id: str

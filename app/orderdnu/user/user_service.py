@@ -26,14 +26,15 @@ class UserService:
         except DoesNotExist:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    async def get_user_by_user_name(self, user_name: str) -> User:
+    async def get_user_by_username(self, username: str) -> User:
         try:
-            user = UserDocument.objects(user_name=user_name).first()
-            return User.model_validate({"id": str(user.id), **user.to_mongo()})
+            user = UserDocument.objects(username=username).first()
+            if user:
+                return User.model_validate({"id": str(user.id), **user.to_mongo()})
+            else:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
         except ValidationError as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
-        except DoesNotExist:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
     async def update_user(self, user_id: str, username: Optional[str], password: Optional[str],
                           full_name: Optional[str]) -> User:
