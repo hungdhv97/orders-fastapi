@@ -8,8 +8,8 @@ from app.orderdnu.user.user_document import UserDocument
 from app.orderdnu.user.user_model import User
 
 
-class UserService:
-    async def create_user(self, username: str, full_name: Optional[str]) -> User:
+class HomeService:
+    async def login(self, username: str, password: str) -> User:
         try:
             new_user = UserDocument(username=username, full_name=full_name)
             new_user.save()

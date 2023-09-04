@@ -3,10 +3,15 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class CreateUserRequest(BaseModel):
+class LoginRequest(BaseModel):
     username: str
-    full_name: Optional[str] = None
+    password: str
 
+
+class SignUpRequest(BaseModel):
+    username: str
+    password: str
+    full_name: str
 
 class UserResponse(BaseModel):
     id: str

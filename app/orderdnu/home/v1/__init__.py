@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from app.orderdnu.user.v1.user_router import router as user_router
+from app.orderdnu.home.v1.home_router import router as home_router
 
-router = APIRouter(prefix="/api/v1/users", tags=["Users"])
+router = APIRouter(prefix="/api/v1/home", tags=["Home"])
 
-router.include_router(user_router)
+router.include_router(home_router)
