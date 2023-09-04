@@ -15,7 +15,7 @@ user_service = UserService()
 class OrderService:
     async def create_order(self, user_id: str, food_name: str, price: int) -> Order:
         try:
-            user = await user_service.get_user(user_id)
+            user = await user_service.get_user_by_id(user_id)
             new_order = OrderDocument(user=UserDocument(**dict(user)), food_name=food_name, price=price)
             new_order.save()
             return Order.model_validate(
@@ -39,7 +39,7 @@ class OrderService:
 
     async def update_order(self, order_id: str, food_name: Optional[str], price: Optional[int]) -> Order:
         order = await self.get_order(order_id)
-        user = await user_service.get_user(order.user_id)
+        user = await user_service.get_user_by_id(order.user_id)
         if food_name:
             order.food_name = food_name
         if price:
