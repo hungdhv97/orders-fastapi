@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 from fastapi import HTTPException
 from mongoengine import NotUniqueError
@@ -33,4 +33,22 @@ class MerchantService:
             return Merchant.model_validate({"id": str(new_merchant.id), **new_merchant.to_mongo(), "user": user})
         except NotUniqueError:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                                detail=f"(merchant_id: {merchant_id}, delivery_type: {delivery_type}) already exists")
+                                detail=f"Merchant already exists")
+
+    async def get_all_merchants(self) -> List[Merchant]:
+        merchant_documents = MerchantDocument.objects()
+        merchants = []
+        for merchant_document in merchant_documents:
+            user = await self.user_service.get_user_by_id(merchant_document.user.id)
+            merchants.append(Merchant.model_validate(
+                {"id": str(merchant_document.id), **merchant_document.to_mongo(), "user": user}))
+        return merchants
+
+    async def search_merchants(self, user_id: str) -> List[Merchant]:
+        user = await self.user_service.get_user_by_id(user_id)
+        merchant_documents = MerchantDocument.objects(user=user_id)
+        merchants = []
+        for merchant_document in merchant_documents:
+            merchants.append(Merchant.model_validate(
+                {"id": str(merchant_document.id), **merchant_document.to_mongo(), "user": user}))
+        return merchants

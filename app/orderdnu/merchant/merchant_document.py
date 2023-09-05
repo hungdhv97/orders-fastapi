@@ -5,6 +5,12 @@ from app.orderdnu.user.user_document import UserDocument
 
 
 class MerchantDocument(Document):
-    merchant_id = StringField(required=True, unique_with='delivery_type')
-    delivery_type = EnumField(DeliveryEnum, default=DeliveryEnum.GRAB, required=True, unique_with='user')
-    user = ReferenceField(UserDocument)
+    merchant_id = StringField(required=True)
+    delivery_type = EnumField(DeliveryEnum, default=DeliveryEnum.GRAB, required=True)
+    user = ReferenceField(UserDocument, required=True)
+
+    meta = {
+        'indexes': [
+            {'fields': ('merchant_id', 'delivery_type', 'user'), 'unique': True}
+        ]
+    }
