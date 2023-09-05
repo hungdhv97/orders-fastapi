@@ -26,5 +26,5 @@ app.add_middleware(
 app.include_router(auth_v1_router)
 app.include_router(client_v1_router)
 app.include_router(merchant_v1_router)
-app.include_router(user_v1_router)
 app.include_router(order_v1_router)
+app.include_router(user_v1_router)
