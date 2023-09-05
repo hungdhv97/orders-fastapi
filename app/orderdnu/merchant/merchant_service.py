@@ -1,7 +1,7 @@
 from typing import List
 
 from fastapi import HTTPException
-from mongoengine import NotUniqueError
+from mongoengine import NotUniqueError, ValidationError, DoesNotExist
 from starlette import status
 
 from app.orderdnu.merchant.merchant_document import MerchantDocument
@@ -42,3 +42,11 @@ class MerchantService:
             merchants.append(Merchant.model_validate(
                 {"id": str(merchant_document.id), **merchant_document.to_mongo(), "user": user}))
         return merchants
+
+    async def delete_merchant(self, merchant_id: str) -> None:
+        try:
+            MerchantDocument.objects.get(id=merchant_id).delete()
+        except ValidationError as e:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        except DoesNotExist:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Merchant not found")
