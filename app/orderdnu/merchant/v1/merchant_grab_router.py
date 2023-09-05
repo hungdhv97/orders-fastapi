@@ -4,11 +4,13 @@ from fastapi import APIRouter, Path
 
 from app.clients.grab.grab_client import GrabClient
 from app.orderdnu.merchant.merchant_service import MerchantService
+from app.orderdnu.user.user_service import UserService
 
 router = APIRouter()
 
 grab_client = GrabClient()
-merchant_service = MerchantService(grab_client)
+user_service = UserService()
+merchant_service = MerchantService(grab_client, user_service)
 
 
 @router.get("/{merchant_id}", response_model=Any)

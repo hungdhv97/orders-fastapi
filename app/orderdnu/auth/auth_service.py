@@ -6,12 +6,13 @@ from app.orderdnu.user.user_document import UserDocument
 from app.orderdnu.user.user_model import User
 from app.orderdnu.user.user_service import UserService
 
-user_service = UserService()
 
+class AuthService:
+    def __init__(self, user_service: UserService):
+        self.user_service = UserService()
 
-class HomeService:
     async def login(self, username: str, password: str) -> User:
-        user = await user_service.get_user_by_username(username)
+        user = await self.user_service.get_user_by_username(username)
         if password != user.password:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Wrong password")
         return user

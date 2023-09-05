@@ -1,6 +1,6 @@
 CREATE_USER_EXAMPLES = {
     "account1": {
-        "summary": "Register Nghia account",
+        "summary": "Create Nghia account",
         "value": {
             "username": "nghia.nguyen4",
             "password": "1234",
@@ -8,7 +8,7 @@ CREATE_USER_EXAMPLES = {
         }
     },
     "account2": {
-        "summary": "Register Hung account",
+        "summary": "Create Hung account",
         "value": {
             "username": "hung.thai",
             "password": "1234",
@@ -16,7 +16,7 @@ CREATE_USER_EXAMPLES = {
         }
     },
     "account3": {
-        "summary": "Register Nam account",
+        "summary": "Create Nam account",
         "value": {
             "username": "nam.nguyen12",
             "password": "1234",

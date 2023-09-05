@@ -1,8 +1,10 @@
-from mongoengine import Document, StringField, ReferenceField
+from mongoengine import Document, StringField, ReferenceField, EnumField
 
+from app.orderdnu.merchant.merchant_model import DeliveryEnum
 from app.orderdnu.user.user_document import UserDocument
 
 
 class MerchantDocument(Document):
-    id: StringField(required=True, primary_key=True)
+    merchant_id = StringField(required=True, unique_with='delivery_type')
+    delivery_type = EnumField(DeliveryEnum, default=DeliveryEnum.GRAB, required=True)
     user = ReferenceField(UserDocument)

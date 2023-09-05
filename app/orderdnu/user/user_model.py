@@ -2,7 +2,7 @@ from typing import Optional, Annotated
 
 from pydantic import BaseModel, Field
 
-IdField = Annotated[str, Field(examples=["64f6318231e3ac649c61d2e8"])]
+ObjectIdField = Annotated[str, Field(examples=["64f6318231e3ac649c61d2e8"])]
 UserNameField = Annotated[str, Field(examples=["nghia.nguyen4"])]
 PasswordField = Annotated[str, Field(examples=["1234"])]
 FullNameField = Annotated[str, Field(examples=["Nguyễn Bá Nghĩa"])]
@@ -19,7 +19,7 @@ class CreateUserRequest(BaseModel):
 
 
 class UserResponse(BaseModel):
-    id: IdField
+    id: ObjectIdField
     username: UserNameField
     full_name: FullNameField
 
@@ -31,7 +31,7 @@ class UpdateUserRequest(BaseModel):
 
 
 class User(BaseModel):
-    id: IdField
+    id: ObjectIdField
     username: UserNameField
     password: PasswordField
     full_name: OptionalFullNameField

@@ -37,7 +37,8 @@ async def get_user(username: UserNamePath) -> UserResponse:
 @router.put("/{user_id}", response_model=UserResponse)
 async def update_user(user_id: UserIdPath,
                       update_user_request: UpdateUserRequestBody) -> UserResponse:
-    user = await user_service.update_user(user_id, update_user_request.username, update_user_request.password, update_user_request.full_name)
+    user = await user_service.update_user(user_id, update_user_request.username, update_user_request.password,
+                                          update_user_request.full_name)
     return UserResponse.model_validate(user.model_dump())
 
 
