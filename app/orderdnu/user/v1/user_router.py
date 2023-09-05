@@ -22,6 +22,12 @@ async def create_user(create_user_request: CreateUserRequestBody) -> UserRespons
     return UserResponse.model_validate(new_user.model_dump())
 
 
+@router.get("/", response_model=List[UserResponse])
+async def get_users(skip: int = 0, limit: int = 10) -> List[UserResponse]:
+    users = await user_service.get_users(skip, limit)
+    return [UserResponse.model_validate(user.model_dump()) for user in users]
+
+
 @router.get("/{user_id}", response_model=UserResponse)
 async def get_user(user_id: UserIdPath) -> UserResponse:
     user = await user_service.get_user_by_id(user_id)
@@ -46,9 +52,3 @@ async def update_user(user_id: UserIdPath,
 async def delete_user(user_id: UserIdPath) -> dict:
     await user_service.delete_user(user_id)
     return {"message": "User deleted"}
-
-
-@router.get("/", response_model=List[UserResponse])
-async def get_users(skip: int = 0, limit: int = 10) -> List[UserResponse]:
-    users = await user_service.get_users(skip, limit)
-    return [UserResponse.model_validate(user.model_dump()) for user in users]
