@@ -13,6 +13,7 @@ connect(host=settings.MONGODB_URI)
 
 app = FastAPI(
     title="OrderDnU Fast API",
+    swagger_ui_parameters={"operationsSorter": "method"}
 )
 
 app.add_middleware(
