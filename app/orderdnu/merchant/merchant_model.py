@@ -1,39 +1,10 @@
 from enum import Enum
-from typing import List, Annotated
+from typing import Annotated
 
 from pydantic import BaseModel, Field
 
 from app.orderdnu.user.user_model import UserResponse, ObjectIdField, User
 
-
-class FoodItem(BaseModel):
-    id: str
-    name: str
-    available: bool
-    img_url: str
-    description: str
-    price: int
-
-
-class CategoryItem(BaseModel):
-    id: str
-    name: str
-    available: bool
-    items: List[FoodItem]
-
-
-class Menu(BaseModel):
-    categories: List[CategoryItem]
-
-
-class MerchantClient(BaseModel):
-    id: str
-    name: str
-    photo_url: str
-    menu: Menu
-
-
-##################################################
 
 class DeliveryEnum(str, Enum):
     GRAB = 'grab'

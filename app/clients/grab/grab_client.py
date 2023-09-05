@@ -11,7 +11,7 @@ class GrabClient:
         self.client = httpx.AsyncClient()
         self.base_url = "https://portal.grab.com/foodweb/v2/merchants/"
 
-    async def get_merchant(self, merchant_id: str) -> GrabMerchantResponse:
+    async def get_merchant_dto(self, merchant_id: str) -> GrabMerchantResponse:
         url = f"{self.base_url}{merchant_id}"
         try:
             response = await self.client.get(url)
@@ -24,7 +24,7 @@ class GrabClient:
             else:
                 raise HTTPException(status_code=500, detail="Internal server error")
 
-    async def get_merchant_full_detail(self, merchant_id: str) -> Any:
+    async def get_merchant_full_info(self, merchant_id: str) -> Any:
         url = f"{self.base_url}{merchant_id}"
         try:
             response = await self.client.get(url)

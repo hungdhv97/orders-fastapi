@@ -4,16 +4,16 @@ from pydantic import BaseModel, Field
 
 
 class GrabFoodItem(BaseModel):
-    id: str = Field(..., alias="ID")
+    ID: str
     name: str
-    available: bool = Field(default=True)
-    img_url: str = Field(..., alias="imgHref")
-    description: str = Field(default="")
-    price: int = Field(..., alias="priceInMinorUnit")
+    available: bool = True
+    imgHref: str
+    description: str = ""
+    priceInMinorUnit: int
 
 
 class GrabCategoryItem(BaseModel):
-    id: str = Field(default="", alias="ID")
+    ID: str = Field(default="")
     name: str
     available: bool
     items: List[GrabFoodItem]
@@ -24,7 +24,7 @@ class GrabMenu(BaseModel):
 
 
 class GrabMerchantResponse(BaseModel):
-    id: str = Field(..., alias="ID")
+    ID: str
     name: str
-    photo_url: str = Field(..., alias="photoHref")
+    photoHref: str
     menu: GrabMenu
