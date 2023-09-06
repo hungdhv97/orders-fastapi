@@ -1,18 +1,14 @@
-from typing import List, Annotated
+from typing import List
 
-from fastapi import APIRouter, Path, Body
+from fastapi import APIRouter
 
-from app.orderdnu.user.openapi_examples import CREATE_USER_EXAMPLES, UPDATE_USER_EXAMPLES
-from app.orderdnu.user.user_model import UserResponse, CreateUserRequest, UpdateUserRequest
+from app.common.annotation.fastapi_params import CreateUserRequestBody, ObjectIdPath, UserNamePath, \
+    UpdateUserRequestBody
+from app.orderdnu.user.user_model import UserResponse
 from app.orderdnu.user.user_service import UserService
 
 router = APIRouter()
 user_service = UserService()
-
-UserNamePath = Annotated[str, Path(example="nghia.nguyen4")]
-UserIdPath = Annotated[str, Path(example="64f6318231e3ac649c61d2e8")]
-CreateUserRequestBody = Annotated[CreateUserRequest, Body(openapi_examples=CREATE_USER_EXAMPLES)]
-UpdateUserRequestBody = Annotated[UpdateUserRequest, Body(openapi_examples=UPDATE_USER_EXAMPLES)]
 
 
 @router.post("/", response_model=UserResponse)
@@ -29,7 +25,7 @@ async def get_users(skip: int = 0, limit: int = 10) -> List[UserResponse]:
 
 
 @router.get("/{user_id}", response_model=UserResponse)
-async def get_user(user_id: UserIdPath) -> UserResponse:
+async def get_user(user_id: ObjectIdPath) -> UserResponse:
     user = await user_service.get_user_by_id(user_id)
     return UserResponse.model_validate(user.model_dump())
 
@@ -41,7 +37,7 @@ async def get_user(username: UserNamePath) -> UserResponse:
 
 
 @router.put("/{user_id}", response_model=UserResponse)
-async def update_user(user_id: UserIdPath,
+async def update_user(user_id: ObjectIdPath,
                       update_user_request: UpdateUserRequestBody) -> UserResponse:
     user = await user_service.update_user(user_id, update_user_request.username, update_user_request.password,
                                           update_user_request.full_name)
@@ -49,6 +45,6 @@ async def update_user(user_id: UserIdPath,
 
 
 @router.delete("/{user_id}", response_model=dict)
-async def delete_user(user_id: UserIdPath) -> dict:
+async def delete_user(user_id: ObjectIdPath) -> dict:
     await user_service.delete_user(user_id)
     return {"message": "User deleted"}

@@ -1,10 +1,7 @@
-from typing import Annotated
+from fastapi import APIRouter
 
-from fastapi import APIRouter, Body
-
-from app.orderdnu.auth.auth_model import LoginRequest, RegisterRequest
+from app.common.annotation.fastapi_params import LoginRequestBody, RegisterRequestBody
 from app.orderdnu.auth.auth_service import AuthService
-from app.orderdnu.auth.openapi_examples import LOGIN_EXAMPLES, REGISTER_EXAMPLES
 from app.orderdnu.user.user_model import UserResponse
 from app.orderdnu.user.user_service import UserService
 
@@ -12,9 +9,6 @@ router = APIRouter()
 
 user_service = UserService()
 auth_service = AuthService(user_service)
-
-RegisterRequestBody = Annotated[RegisterRequest, Body(openapi_examples=REGISTER_EXAMPLES)]
-LoginRequestBody = Annotated[LoginRequest, Body(openapi_examples=LOGIN_EXAMPLES)]
 
 
 @router.post("/login", response_model=UserResponse)

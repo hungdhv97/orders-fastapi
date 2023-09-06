@@ -1,18 +1,8 @@
-from enum import Enum
-from typing import Annotated
+from pydantic import BaseModel
 
-from pydantic import BaseModel, Field
-
-from app.orderdnu.user.user_model import UserResponse, ObjectIdField, User
-
-
-class DeliveryEnum(str, Enum):
-    GRAB = 'grab'
-    SHOPEE = 'shopee'
-
-
-MerchantIdField = Annotated[str, Field(examples=["5-C3C2T8MUVN4HLT"])]
-DeliveryTypeField = Annotated[DeliveryEnum, Field(examples=[DeliveryEnum.GRAB])]
+from app.common.annotation.model_fields import MerchantIdField, DeliveryTypeField, ObjectIdField
+from app.orderdnu.merchant.merchant_enum import DeliveryEnum
+from app.orderdnu.user.user_model import UserResponse, User
 
 
 class CreateMerchantRequest(BaseModel):

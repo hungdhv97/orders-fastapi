@@ -1,11 +1,11 @@
-from typing import Annotated, List
+from typing import List
 
-from fastapi import APIRouter, Body, Query, Path
+from fastapi import APIRouter
 
 from app.clients.grab.grab_client import GrabClient
-from app.orderdnu.merchant.merchant_model import MerchantResponse, CreateMerchantRequest
+from app.common.annotation.fastapi_params import CreateMerchantRequestBody, ObjectIdQuery, ObjectIdPath
+from app.orderdnu.merchant.merchant_model import MerchantResponse
 from app.orderdnu.merchant.merchant_service import MerchantService
-from app.orderdnu.merchant.openapi_examples import CREATE_MERCHANT_EXAMPLES
 from app.orderdnu.user.user_service import UserService
 
 router = APIRouter()
@@ -13,10 +13,6 @@ router = APIRouter()
 grab_client = GrabClient()
 user_service = UserService()
 merchant_service = MerchantService(user_service)
-
-CreateMerchantRequestBody = Annotated[CreateMerchantRequest, Body(openapi_examples=CREATE_MERCHANT_EXAMPLES)]
-ObjectIdQuery = Annotated[str, Query(example="64f6318231e3ac649c61d2e8")]
-MerchantIdPath = Annotated[str, Path(example="5-C3C2T8MUVN4HLT")]
 
 
 @router.post("/", response_model=MerchantResponse)
@@ -51,6 +47,6 @@ async def search_merchants(user_id: ObjectIdQuery):
 
 
 @router.delete("/{merchant_id}", response_model=dict)
-async def delete_merchant(merchant_id: MerchantIdPath):
+async def delete_merchant(merchant_id: ObjectIdPath):
     await merchant_service.delete_merchant(merchant_id)
     return {"message": "Merchant deleted"}

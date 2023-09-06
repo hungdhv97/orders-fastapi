@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from app.orderdnu.user.user_model import UserNameField, PasswordField, FullNameField
+from app.common.annotation.model_fields import UserNameField, PasswordField, FullNameField
 
 
 class LoginRequest(BaseModel):

@@ -1,15 +1,14 @@
-from typing import Annotated, Any
+from typing import Any
 
-from fastapi import APIRouter, Path
+from fastapi import APIRouter
 
 from app.clients.grab.grab_client import GrabClient
 from app.clients.grab.grab_merchant_model import GrabMerchantResponse
+from app.common.annotation.fastapi_params import ClientMerchantIdPath
 
 router = APIRouter()
 
 grab_client = GrabClient()
-
-ClientMerchantIdPath = Annotated[str, Path(example="5-C3C2T8MUVN4HLT")]
 
 
 @router.get("/grab/merchant/{client_merchant_id}", response_model=Any)
