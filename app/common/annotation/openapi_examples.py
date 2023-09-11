@@ -115,3 +115,44 @@ UPDATE_USER_EXAMPLES = {
         }
     },
 }
+
+CREATE_ORDER_EXAMPLES = {
+    "create_order": {
+        "summary": "Create order",
+        "value": {
+            "user_id": "64f6318231e3ac649c61d2e8",
+            "merchant_id": "64f6318231e3ac649c61dxxx",
+            "items": [
+                {
+                    "product_name": "Cơm gà",
+                    "price": 40_000,
+                    "quantity": 1,
+                },
+                {
+                    "product_name": "Cháo gà",
+                    "price": 30_000,
+                    "quantity": 2,
+                    "note": "Không hành",
+                }
+            ]
+        }
+    },
+}
+
+UPDATE_ORDER_EXAMPLES = {
+    "update_order": {
+        "summary": "Update Order",
+        "value": {
+            "user_id": "64f6318231e3ac649c61d2e8",
+            "merchant_id": "64f6318231e3ac649c61d2e8",
+            "items": [
+                {
+                    "id": "64f6318231e3ac649c61d2e8",
+                    "product_name": "Cơm gà",
+                    "quantity": 2,
+                    "note": "Ít cơm",
+                },
+            ]
+        }
+    },
+}

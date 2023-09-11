@@ -20,5 +20,8 @@ NoteField = Annotated[str, Field(default="", examples=["Không hành"])]
 OptionalUserNameField = Annotated[Optional[str], Field(default=None, examples=["nghia.nguyen4"])]
 OptionalPasswordField = Annotated[Optional[str], Field(default=None, examples=["1234"])]
 OptionalFullNameField = Annotated[Optional[str], Field(default=None, examples=["Nguyễn Bá Nghĩa"])]
+OptionalProductNameField = Annotated[Optional[str], Field(examples=["Cơm gà"])]
+OptionalPriceField = Annotated[Optional[int], Field(examples=[40000])]
+OptionalQuantityField = Annotated[Optional[int], Field(examples=[1])]
 
 DeliveryTypeField = Annotated[DeliveryEnum, Field(examples=[DeliveryEnum.GRAB])]

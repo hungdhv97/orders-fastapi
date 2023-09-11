@@ -2,15 +2,20 @@ from typing import List
 
 from fastapi import APIRouter
 
-from app.orderdnu.order.order_model import OrderResponse, CreateOrderRequest, UpdateOrderRequest
+from app.common.annotation.fastapi_params import CreateOrderRequestBody, UpdateOrderRequestBody
+from app.orderdnu.merchant.merchant_service import MerchantService
+from app.orderdnu.order.order_model import OrderResponse
 from app.orderdnu.order.order_service import OrderService
+from app.orderdnu.user.user_service import UserService
 
 router = APIRouter()
-order_service = OrderService()
+user_service = UserService()
+merchant_service = MerchantService(user_service)
+order_service = OrderService(user_service, merchant_service)
 
 
 @router.post("/", response_model=OrderResponse)
-async def create_order(order: CreateOrderRequest) -> OrderResponse:
+async def create_order(order: CreateOrderRequestBody) -> OrderResponse:
     new_order = await order_service.create_order(order.user_id, order.food_name, order.price)
     return OrderResponse.model_validate(new_order.model_dump())
 
@@ -22,7 +27,7 @@ async def get_order(order_id: str) -> OrderResponse:
 
 
 @router.put("/{order_id}", response_model=OrderResponse)
-async def update_order(order_id: str, order_update: UpdateOrderRequest) -> OrderResponse:
+async def update_order(order_id: str, order_update: UpdateOrderRequestBody) -> OrderResponse:
     order = await order_service.update_order(order_id, order_update.food_name, order_update.price)
     return OrderResponse.model_validate(order.model_dump())
 
