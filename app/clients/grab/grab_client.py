@@ -11,8 +11,8 @@ class GrabClient:
         self.client = httpx.AsyncClient()
         self.base_url = "https://portal.grab.com/foodweb/v2/merchants/"
 
-    async def get_merchant_dto(self, client_merchant_id: str) -> GrabMerchantResponse:
-        url = f"{self.base_url}{client_merchant_id}"
+    async def get_merchant_dto(self, grab_merchant_id: str) -> GrabMerchantResponse:
+        url = f"{self.base_url}{grab_merchant_id}"
         try:
             response = await self.client.get(url)
             response.raise_for_status()

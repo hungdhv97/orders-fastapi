@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Annotated, Optional
 
 from pydantic import Field
@@ -9,6 +10,12 @@ ObjectIdField = Annotated[str, Field(examples=["64f6318231e3ac649c61d2e8"])]
 UserNameField = Annotated[str, Field(examples=["nghia.nguyen4"])]
 PasswordField = Annotated[str, Field(examples=["1234"])]
 FullNameField = Annotated[str, Field(examples=["Nguyễn Bá Nghĩa"])]
+ProductNameField = Annotated[str, Field(examples=["Cơm gà"])]
+PriceField = Annotated[int, Field(examples=[40000])]
+QuantityField = Annotated[int, Field(examples=[1])]
+TotalPriceField = Annotated[int, Field(examples=[100_000])]
+DateTimeField = Annotated[str, Field(examples=[datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')])]
+
 
 OptionalUserNameField = Annotated[Optional[str], Field(default=None, examples=["nghia.nguyen4"])]
 OptionalPasswordField = Annotated[Optional[str], Field(default=None, examples=["1234"])]

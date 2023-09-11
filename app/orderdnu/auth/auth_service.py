@@ -9,7 +9,7 @@ from app.orderdnu.user.user_service import UserService
 
 class AuthService:
     def __init__(self, user_service: UserService):
-        self.user_service = UserService()
+        self.user_service = user_service
 
     async def login(self, username: str, password: str) -> User:
         user = await self.user_service.get_user_by_username(username)

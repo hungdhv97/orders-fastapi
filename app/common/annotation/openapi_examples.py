@@ -109,7 +109,7 @@ UPDATE_USER_EXAMPLES = {
         }
     },
     "update_fullname": {
-        "summary": "Any Fullname",
+        "summary": "Update Fullname",
         "value": {
             "full_name": "Updated Fullname",
         }

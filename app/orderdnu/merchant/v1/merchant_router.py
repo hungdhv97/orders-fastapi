@@ -20,8 +20,8 @@ async def create_merchant(create_merchant_request: CreateMerchantRequestBody) ->
     new_merchant = await merchant_service.create_merchant(create_merchant_request.merchant_id,
                                                           create_merchant_request.delivery_type,
                                                           create_merchant_request.user_id)
-    merchant_info = await grab_client.get_merchant_full_info(create_merchant_request.merchant_id)
-    return MerchantResponse.model_validate({"merchant_info": merchant_info["merchant"], **new_merchant.model_dump()})
+    client_merchant_info = await grab_client.get_merchant_full_info(create_merchant_request.merchant_id)
+    return MerchantResponse.model_validate({"client_merchant_info": client_merchant_info["merchant"], **new_merchant.model_dump()})
 
 
 @router.get("/", response_model=List[MerchantResponse])
@@ -29,9 +29,9 @@ async def get_all_merchants() -> List[MerchantResponse]:
     merchants = await merchant_service.get_all_merchants()
     merchants_response = []
     for merchant in merchants:
-        merchant_info = await grab_client.get_merchant_full_info(merchant.merchant_id)
+        client_merchant_info = await grab_client.get_merchant_full_info(merchant.merchant_id)
         merchants_response.append(
-            MerchantResponse.model_validate({"merchant_info": merchant_info["merchant"], **merchant.model_dump()}))
+            MerchantResponse.model_validate({"client_merchant_info": client_merchant_info["merchant"], **merchant.model_dump()}))
     return merchants_response
 
 
@@ -40,9 +40,9 @@ async def search_merchants(user_id: ObjectIdQuery):
     merchants = await merchant_service.search_merchants(user_id)
     merchants_response = []
     for merchant in merchants:
-        merchant_info = await grab_client.get_merchant_full_info(merchant.merchant_id)
+        client_merchant_info = await grab_client.get_merchant_full_info(merchant.merchant_id)
         merchants_response.append(
-            MerchantResponse.model_validate({"merchant_info": merchant_info["merchant"], **merchant.model_dump()}))
+            MerchantResponse.model_validate({"client_merchant_info": client_merchant_info["merchant"], **merchant.model_dump()}))
     return merchants_response
 
 

@@ -22,4 +22,4 @@ class MerchantResponse(BaseModel):
     id: ObjectIdField
     delivery_type: DeliveryEnum
     user: UserResponse
-    merchant_info: dict
+    client_client_merchant_info: dict
