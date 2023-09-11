@@ -3,7 +3,7 @@ from typing import List
 from pydantic import BaseModel
 
 from app.common.annotation.model_fields import ObjectIdField, ProductNameField, PriceField, QuantityField, \
-    TotalPriceField, DateTimeField
+    TotalPriceField, DateTimeField, NoteField
 
 
 class OrderItem(BaseModel):
@@ -11,6 +11,7 @@ class OrderItem(BaseModel):
     product_name: ProductNameField
     price: PriceField
     quantity: QuantityField
+    note: NoteField
 
 
 class Order(BaseModel):
