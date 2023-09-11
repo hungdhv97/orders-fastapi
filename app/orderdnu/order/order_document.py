@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from mongoengine import Document, StringField, ReferenceField, IntField, FloatField, ListField, DateTimeField, EnumField
+from mongoengine import Document, StringField, ReferenceField, IntField, FloatField, ListField, DateTimeField
 
 from app.orderdnu.merchant.merchant_document import MerchantDocument
 from app.orderdnu.user.user_document import UserDocument

@@ -16,7 +16,6 @@ QuantityField = Annotated[int, Field(examples=[1])]
 TotalPriceField = Annotated[int, Field(examples=[100_000])]
 DateTimeField = Annotated[str, Field(examples=[datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')])]
 
-
 OptionalUserNameField = Annotated[Optional[str], Field(default=None, examples=["nghia.nguyen4"])]
 OptionalPasswordField = Annotated[Optional[str], Field(default=None, examples=["1234"])]
 OptionalFullNameField = Annotated[Optional[str], Field(default=None, examples=["Nguyễn Bá Nghĩa"])]
