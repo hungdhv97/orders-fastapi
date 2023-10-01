@@ -18,6 +18,7 @@ class Order(BaseModel):
     id: ObjectIdField
     user_id: ObjectIdField
     merchant_id: ObjectIdField
+    bill_id: ObjectIdField
     items: List[OrderItem]
     total_price: TotalPriceField
     order_date: DateTimeField
@@ -27,6 +28,7 @@ class OrderResponse(BaseModel):
     id: ObjectIdField
     user_id: ObjectIdField
     merchant_id: ObjectIdField
+    bill_id: ObjectIdField
     items: List[OrderItem]
     total_price: TotalPriceField
     order_date: DateTimeField
@@ -41,6 +43,7 @@ class CreateOrderItem(BaseModel):
 class CreateOrderRequest(BaseModel):
     user_id: ObjectIdField
     merchant_id: ObjectIdField
+    bill_id: ObjectIdField
     items: List[CreateOrderItem]
 
 
@@ -55,4 +58,5 @@ class UpdateOrderRequest(BaseModel):
     id: ObjectIdField
     user_id: ObjectIdField
     merchant_id: ObjectIdField
+    bill_id: ObjectIdField
     items: List[UpdateOrderItem]
